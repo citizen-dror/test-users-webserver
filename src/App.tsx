@@ -1,45 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import MyCard from './components/MyCard';
-
-const styles = {
-  div1: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-  },
-  card: {
-      width: 400,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#fe43FE'
-  }
-}
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import Header from './components/Header';
+import UserForm from './pages/UserForm';
+import UsersTable from './pages/UsersTable';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <MyCard style={styles.card}>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        </MyCard>
-       
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <div>
+          <Header />
+          <Switch>
+            <Route path="/form">
+              <UserForm />
+            </Route>
+            <Route path="/table">
+              <UsersTable />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
+}
+function Home() {
+  return <h2>Home</h2>;
 }
 
 export default App;
