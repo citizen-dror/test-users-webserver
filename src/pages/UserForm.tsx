@@ -10,16 +10,31 @@ import MySelect from '../components/MySelect';
 import UsersService from '../services/usersService';
 import { macthHeb, macthInt, formatDate } from '../services/utils';
 import { User } from '../interfaces/user.interface';
+import timezonesService from '../services/timezonesService';
 
 const StudentsForm: React.FC<{}> = () => {
     //const [ firstName, setFirstName ] = useState('');
     const [form, setForm] = useState({} as User);
     const [errors, setErrors] = useState({} as User);
     const [birthDate, setBirthDate] = useState(new Date());
-    const [citisArr, setCitisArr] = useState([] as any[]);
+    const [timeZonesArr, setTimeZonesArr] = useState([] as any[]);
 
  
-
+    /**
+     * load timeZones combo
+     */
+     useEffect(() => {
+        timezonesService.getAll()
+            .then((data: any[] | undefined) => {
+                if (data !== null && data !== undefined) {
+                    data.unshift({
+                        name: "",
+                        utcOffset: "Select Time Zone"
+                    })
+                    setTimeZonesArr(data);
+                }
+            });
+    }, []);
     /**
      * update state from UI
      * @param field name of field
@@ -38,8 +53,8 @@ const StudentsForm: React.FC<{}> = () => {
         })
     };
 
-    const onSelectCity = (event: ChangeEvent<HTMLSelectElement>) => {
-        setField('city_id', event.target.value);
+    const onSelectTimeZone = (event: ChangeEvent<HTMLSelectElement>) => {
+        setField('time_zone', event.target.value);
     };
     const pickBirthDate = (date: Date | null | [Date, Date]) => {
         if (date && date instanceof Date) {
@@ -52,7 +67,7 @@ const StudentsForm: React.FC<{}> = () => {
      * if all controls are valid will be emtpy obeject  
      */
     const validateForm = () => {
-        const { first_name, last_name, israel_id, city_id } = form;
+        const { first_name, last_name, israel_id, time_zone } = form;
         const newErrors = {} as User;
         // firstName errors
         if (!first_name || first_name === '') newErrors.firstName = 'First Name cannot be blank!';
@@ -78,11 +93,12 @@ const StudentsForm: React.FC<{}> = () => {
             // We got errors!
             setErrors(newErrors)
         } else {
-            const { first_name, last_name, userId } = form;
+            const { first_name, last_name, userId, time_zone } = form;
             const user: User = {
                 userId: userId, 
                 firstName: first_name,
                 lastName: last_name,
+                timeZone: time_zone
             };
             UsersService.postUser(user)
                 .then((data: any | undefined) => {
@@ -163,11 +179,11 @@ const StudentsForm: React.FC<{}> = () => {
                         </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="studentsForm.city_id">
-                        <Form.Label>City: </Form.Label>
+                        <Form.Label>Time Zone: </Form.Label>
                         <MySelect
-                            data={citisArr}
-                            keyProp='city_id' valProp='city_name'
-                            onChange={onSelectCity}
+                            data={timeZonesArr}
+                            keyProp='name' valProp='name'
+                            onChange={onSelectTimeZone}
                             isInvalid={!!errors.city_id}
                         />
                         <Form.Control.Feedback type='invalid'>

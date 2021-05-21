@@ -26,6 +26,7 @@ const UsersTable: React.FC<{}> = () => {
                         <th>#</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Time Zone</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +35,7 @@ const UsersTable: React.FC<{}> = () => {
                             <td>{item.userId}</td>
                             <td>{item.firstName}</td>
                             <td>{item.lastName}</td>
+                            <td>{item.timeZone}</td>
                         </tr>
                     })}
                 </tbody>
