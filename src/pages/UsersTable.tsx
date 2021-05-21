@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import MyCard from '../components/MyCard';
 import UserService from '../services/usersService';
+import { User } from '../interfaces/user.interface';
 //import {sqlDateToUiFormat} from '../services/utils';
 
 const UsersTable: React.FC<{}> = () => {
@@ -12,6 +13,7 @@ const UsersTable: React.FC<{}> = () => {
         UserService.getAll()
             .then((data: any[] | undefined) => {
                 if (data !== null && data !== undefined) {
+                    console.table(data)
                     setUsersArr(data);
                 }
             });
@@ -27,11 +29,11 @@ const UsersTable: React.FC<{}> = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {usrsArr.map((item: any) => {
-                        return <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{item.first_name}</td>
-                            <td>{item.last_name}</td>
+                    {usrsArr.map((item: User) => {
+                        return <tr key={item.userId}>
+                            <td>{item.userId}</td>
+                            <td>{item.firstName}</td>
+                            <td>{item.lastName}</td>
                         </tr>
                     })}
                 </tbody>

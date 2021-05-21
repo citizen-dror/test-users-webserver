@@ -56,12 +56,12 @@ const StudentsForm: React.FC<{}> = () => {
         const newErrors = {} as User;
         // firstName errors
         if (!first_name || first_name === '') newErrors.firstName = 'First Name cannot be blank!';
-        else if (!macthHeb(first_name)) newErrors.firstName = 'First Name should be in hebrew!'
+        // else if (!macthHeb(first_name)) newErrors.firstName = 'First Name should be in hebrew!'
         else if (first_name.length > 20) newErrors.firstName = 'First Name is too long!'
 
         // lastName errors
         if (!last_name || last_name === '') newErrors.lastName = 'Last Name cannot be blank!';
-        else if (!macthHeb(last_name)) newErrors.lastName = 'Last Name should be in hebrew!';
+        // else if (!macthHeb(last_name)) newErrors.lastName = 'Last Name should be in hebrew!';
         else if (last_name.length > 20) newErrors.lastName = 'Last Name is too long!'
         
         return newErrors
@@ -87,8 +87,8 @@ const StudentsForm: React.FC<{}> = () => {
             UsersService.postUser(user)
                 .then((data: any | undefined) => {
                 if (data) {
-                    const {affectedRows} = data;
-                    if (affectedRows && affectedRows> 0){
+                    const {userId} = data;
+                    if (userId && userId > 0){
                         alert('User details were updated!');
                     } else {
                         alert('Undale to update User details');

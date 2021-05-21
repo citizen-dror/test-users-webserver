@@ -1,9 +1,10 @@
 import {User} from '../interfaces/user.interface';
 
 class UsersService {
+  baseUSrl = 'https://localhost:44371/';
   public getAll = async (): Promise<Array<any> | undefined> => {
     // Default options are marked with *
-    let url = '/api/users/all/';
+    let url = this.baseUSrl + 'api/v1/users/all';
     const response = await fetch(url, {
       method: 'GET',
       mode: 'cors', // no-cors, *cors, same-origin
@@ -23,7 +24,7 @@ class UsersService {
 
   public postUser = async (user: User): Promise<Array<any> | undefined> => {
     // Default options are marked with *
-    const url = '/api/v1/students/add';
+    const url = this.baseUSrl + 'api/v1/users/';
     const sObj = JSON.stringify(user);
     const response = await fetch(url, {
       method: 'POST',
