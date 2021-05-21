@@ -16,10 +16,8 @@ const StudentsForm: React.FC<{}> = () => {
     //const [ firstName, setFirstName ] = useState('');
     const [form, setForm] = useState({} as User);
     const [errors, setErrors] = useState({} as User);
-    const [birthDate, setBirthDate] = useState(new Date());
     const [timeZonesArr, setTimeZonesArr] = useState([] as any[]);
 
- 
     /**
      * load timeZones combo
      */
@@ -56,18 +54,14 @@ const StudentsForm: React.FC<{}> = () => {
     const onSelectTimeZone = (event: ChangeEvent<HTMLSelectElement>) => {
         setField('time_zone', event.target.value);
     };
-    const pickBirthDate = (date: Date | null | [Date, Date]) => {
-        if (date && date instanceof Date) {
-            setBirthDate(date);
-        }
-    }
+
     /**
      * validate all the contorols 
      * @returns error obejct with un-valid contol messges. 
      * if all controls are valid will be emtpy obeject  
      */
     const validateForm = () => {
-        const { first_name, last_name, israel_id, time_zone } = form;
+        const { first_name, last_name, time_zone } = form;
         const newErrors = {} as User;
         // firstName errors
         if (!first_name || first_name === '') newErrors.firstName = 'First Name cannot be blank!';
@@ -82,7 +76,7 @@ const StudentsForm: React.FC<{}> = () => {
         return newErrors
     }
     /**
-     * validate the input, and if all is ok send the data to the server
+     * validate the input, if all is ok, send the data to the server
      * @param e 
      */
     const handleSubmit = (e: any) => {
@@ -93,12 +87,15 @@ const StudentsForm: React.FC<{}> = () => {
             // We got errors!
             setErrors(newErrors)
         } else {
-            const { first_name, last_name, userId, time_zone } = form;
+            const { first_name, last_name, userId, time_zone , webSite, phoneSkype, about } = form;
             const user: User = {
                 userId: userId, 
                 firstName: first_name,
                 lastName: last_name,
-                timeZone: time_zone
+                timeZone: time_zone,
+                webSite: webSite,
+                phoneSkype: phoneSkype,
+                about: about
             };
             UsersService.postUser(user)
                 .then((data: any | undefined) => {
@@ -132,7 +129,7 @@ const StudentsForm: React.FC<{}> = () => {
         <div style={styles.div1}>
             <MyCard style={styles.card}>
                 <Form>
-                    <Form.Group controlId="studentsForm.first_name">
+                    <Form.Group controlId="usersFormfirst_name">
                         <Form.Label>First Name: </Form.Label>
                         <Form.Control
                             type="text"
@@ -143,7 +140,7 @@ const StudentsForm: React.FC<{}> = () => {
                             {errors.first_name}
                         </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group controlId="studentsForm.last_name">
+                    <Form.Group controlId="usersForm.last_name">
                         <Form.Label>Last Name: </Form.Label>
                         <Form.Control
                             type="text"
@@ -154,42 +151,52 @@ const StudentsForm: React.FC<{}> = () => {
                             {errors.last_name}
                         </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group controlId="studentsForm.dateBirth">
-                        <Form.Label>Date Of Birth: </Form.Label>
-                        <br />
-                        {/* <DatePicker
-                            className="form-control"
-                            selected={birthDate}
-                            dateFormat="dd/MM/yyyy"
-                            onChange={date => pickBirthDate(date)}
-                        /> */}
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.birth_date}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="studentsForm.israel_id">
-                        <Form.Label>Israel ID: </Form.Label>
-                        <Form.Control
-                            type="text"
-                            onChange={e => setField('israel_id', e.target.value)}
-                            isInvalid={!!errors.israel_id}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.israel_id}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="studentsForm.city_id">
+                    <Form.Group controlId="usersForm.time_zone">
                         <Form.Label>Time Zone: </Form.Label>
                         <MySelect
                             data={timeZonesArr}
                             keyProp='name' valProp='name'
                             onChange={onSelectTimeZone}
-                            isInvalid={!!errors.city_id}
+                            isInvalid={!!errors.time_zone}
                         />
                         <Form.Control.Feedback type='invalid'>
-                            {errors.city_id}
+                            {errors.time_zone}
                         </Form.Control.Feedback>
                     </Form.Group>
+                    <Form.Group controlId="usersForm.webSite">
+                        <Form.Label>WebSite: </Form.Label>
+                        <Form.Control
+                            type="text"
+                            onChange={e => setField('webSite', e.target.value)}
+                            isInvalid={!!errors.webSite}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.webSite}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group controlId="usersForm.phoneSkype">
+                        <Form.Label>Phone/Skype: </Form.Label>
+                        <Form.Control
+                            type="text"
+                            onChange={e => setField('phoneSkype', e.target.value)}
+                            isInvalid={!!errors.phoneSkype}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.phoneSkype}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group controlId="usersForm.about">
+                        <Form.Label>About Me: </Form.Label>
+                        <Form.Control
+                            type="text"
+                            onChange={e => setField('about', e.target.value)}
+                            isInvalid={!!errors.phoneSkype}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.about}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    
                     <Button variant="primary" onClick={handleSubmit}>Save</Button>{' '}
                 </Form>
             </MyCard>
