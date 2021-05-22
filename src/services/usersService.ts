@@ -4,7 +4,7 @@ class UsersService {
   baseUSrl = 'https://localhost:44371/';
   public getAll = async (): Promise<Array<any> | undefined> => {
     // Default options are marked with *
-    let url = this.baseUSrl + 'api/v1/users/all';
+    let url = this.baseUSrl + 'api/v1/users';
     const response = await fetch(url, {
       method: 'GET',
       mode: 'cors', // no-cors, *cors, same-origin
