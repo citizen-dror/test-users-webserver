@@ -26,7 +26,7 @@ const StudentsForm: React.FC<{}> = () => {
             .then((data: any[] | undefined) => {
                 if (data !== null && data !== undefined) {
                     data.unshift({
-                        name: "",
+                        name: "Select Time Zone",
                         utcOffset: "Select Time Zone"
                     })
                     setTimeZonesArr(data);
