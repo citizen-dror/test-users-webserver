@@ -6,11 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import MyCard from '../components/MyCard';
 import MySelect from '../components/MySelect';
-// import CitiesService from '../services/citiesService';
 import UsersService from '../services/usersService';
-import { macthHeb, macthInt, formatDate } from '../services/utils';
-import { User } from '../interfaces/user.interface';
 import timezonesService from '../services/timezonesService';
+// import { macthHeb, macthInt, formatDate } from '../services/utils';
+import { User } from '../interfaces/user.interface';
+
 
 const StudentsForm: React.FC<{}> = () => {
     //const [ firstName, setFirstName ] = useState('');
@@ -52,26 +52,26 @@ const StudentsForm: React.FC<{}> = () => {
     };
 
     const onSelectTimeZone = (event: ChangeEvent<HTMLSelectElement>) => {
-        setField('time_zone', event.target.value);
+        setField('timeZone', event.target.value);
     };
 
     /**
-     * validate all the contorols 
+     * validate the contorols 
      * @returns error obejct with un-valid contol messges. 
      * if all controls are valid will be emtpy obeject  
      */
     const validateForm = () => {
-        const { first_name, last_name, time_zone } = form;
+        const { firstName, lastName } = form;
         const newErrors = {} as User;
         // firstName errors
-        if (!first_name || first_name === '') newErrors.firstName = 'First Name cannot be blank!';
-        // else if (!macthHeb(first_name)) newErrors.firstName = 'First Name should be in hebrew!'
-        else if (first_name.length > 20) newErrors.firstName = 'First Name is too long!'
+        if (!firstName || firstName === '') newErrors.firstName = 'First Name cannot be blank!';
+        // else if (!macthHeb(firstName)) newErrors.firstName = 'First Name should be in hebrew!'
+        else if (firstName.length > 20) newErrors.firstName = 'First Name is too long!'
 
         // lastName errors
-        if (!last_name || last_name === '') newErrors.lastName = 'Last Name cannot be blank!';
-        // else if (!macthHeb(last_name)) newErrors.lastName = 'Last Name should be in hebrew!';
-        else if (last_name.length > 20) newErrors.lastName = 'Last Name is too long!'
+        if (!lastName || lastName === '') newErrors.lastName = 'Last Name cannot be blank!';
+        // else if (!macthHeb(lastName)) newErrors.lastName = 'Last Name should be in hebrew!';
+        else if (lastName.length > 20) newErrors.lastName = 'Last Name is too long!'
         
         return newErrors
     }
@@ -87,12 +87,12 @@ const StudentsForm: React.FC<{}> = () => {
             // We got errors!
             setErrors(newErrors)
         } else {
-            const { first_name, last_name, userId, time_zone , webSite, phoneSkype, about } = form;
+            const { firstName, lastName, userId, timeZone , webSite, phoneSkype, about } = form;
             const user: User = {
                 userId: userId, 
-                firstName: first_name,
-                lastName: last_name,
-                timeZone: time_zone,
+                firstName: firstName,
+                lastName: lastName,
+                timeZone: timeZone,
                 webSite: webSite,
                 phoneSkype: phoneSkype,
                 about: about
@@ -129,38 +129,38 @@ const StudentsForm: React.FC<{}> = () => {
         <div style={styles.div1}>
             <MyCard style={styles.card}>
                 <Form>
-                    <Form.Group controlId="usersFormfirst_name">
+                    <Form.Group controlId="usersForm.firstName">
                         <Form.Label>First Name: </Form.Label>
                         <Form.Control
                             type="text"
-                            onChange={e => setField('first_name', e.target.value)}
-                            isInvalid={!!errors.first_name}
+                            onChange={e => setField('firstName', e.target.value)}
+                            isInvalid={!!errors.firstName}
                         />
                         <Form.Control.Feedback type='invalid'>
-                            {errors.first_name}
+                            {errors.firstName}
                         </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group controlId="usersForm.last_name">
+                    <Form.Group controlId="usersForm.lastName">
                         <Form.Label>Last Name: </Form.Label>
                         <Form.Control
                             type="text"
-                            onChange={e => setField('last_name', e.target.value)}
-                            isInvalid={!!errors.last_name}
+                            onChange={e => setField('lastName', e.target.value)}
+                            isInvalid={!!errors.lastName}
                         />
                         <Form.Control.Feedback type='invalid'>
-                            {errors.last_name}
+                            {errors.lastName}
                         </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group controlId="usersForm.time_zone">
+                    <Form.Group controlId="usersForm.timeZone">
                         <Form.Label>Time Zone: </Form.Label>
                         <MySelect
                             data={timeZonesArr}
                             keyProp='name' valProp='name'
                             onChange={onSelectTimeZone}
-                            isInvalid={!!errors.time_zone}
+                            isInvalid={!!errors.timeZone}
                         />
                         <Form.Control.Feedback type='invalid'>
-                            {errors.time_zone}
+                            {errors.timeZone}
                         </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="usersForm.webSite">
